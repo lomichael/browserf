@@ -1,22 +1,27 @@
-CC := g++
-CFLAGS := -std=c++11 -Wall -Wextra
-SRC_DIR := src
-OBJ_DIR := obj
-TARGET := browserf
+CC = g++
+CCFLAGS = -Isrc -std=c++11 -Wall -Wextra
+LDFLAGS = 
 
-SRCS := $(wildcard $(SRC_DIR)/*.cpp)
-OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
+MAIN_SRC = $(filter-out src/main.cpp, $(wildcard src/*.cpp))
+MAIN_OBJ = $(MAIN_SRC:.cpp=.o)
+MAIN_EXE = browserf
 
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@
+TEST_SRC = $(wildcard test/*.cpp)
+TEST_EXE = $(TEST_SRC:.cpp=)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+all: main test 
+
+main: $(MAIN_EXE)
+
+test: $(TEST_EXE)
+
+$(MAIN_EXE): src/main.cpp $(MAIN_OBJ)
+	$(CC) $(CCFLAGS) $(LDFLAGS) -o $@ $^
+
+$(TEST_EXE): % : $(TEST_SRC) $(MAIN_OBJ)
+	$(CC) $(CCFLAGS) $(LDFLAGS) -o $@ $(filter %$(basename $(notdir $@)).cpp, $(TEST_SRC)) $(MAIN_OBJ)
 
 clean:
-	rm -rf $(OBJ_DIR) $(TARGET)
+	rm -f src/*.o test/*.o $(MAIN_EXE) $(TEST_EXE)
 
-.PHONY: all clean
-
-all: $(TARGET)
+.PHONY: all clean test

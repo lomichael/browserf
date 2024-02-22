@@ -18,7 +18,6 @@ struct Style {
 class BrowserEngine {
 public:
 	void loadURL(const std::string& url);
-private:
 	std::string fetchResource(const std::string& url);
 	DOMNode parseHTML(const std::string& htmlContent);
 	std::map<std::string, std::string> parseCSS(const std::string& cssContent);

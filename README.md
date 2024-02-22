@@ -17,17 +17,17 @@ make
 
 ## Test Progress
 - Networking
-    - [ ] Fetch a local text file.
+    - [X] Fetch a local text file.
     - [ ] Fetch content over HTTP.
     - [ ] Fetch a non-existent resource.
     - [ ] Fetch content over HTTPS.
 - HTML Parser
-    - [ ] Parse a minimal HTML document.
+    - [X] Parse a minimal HTML document.
     - [ ] Parse nested HTML elements.
     - [ ] Parse elements with text content.
     - [ ] Parse element attributes.
 - CSS Parser
-    - [ ] Parse a simple CSS rule.
+    - [X] Parse a simple CSS rule.
     - [ ] Parse multiple CSS rules.
     - [ ] Parse class and ID selectors.
     - [ ] Parse descendant and child selectors.
