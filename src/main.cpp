@@ -2,6 +2,6 @@
 
 int main() {
 	BrowserEngine browser;
-	browser.loadURL("http://example.com");
+	browser.loadURL("../test/index.html");
 	return 0;
 }

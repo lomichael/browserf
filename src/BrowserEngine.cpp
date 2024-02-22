@@ -1,20 +1,37 @@
 #include "BrowserEngine.h"
 #include <iostream>
+#include <fstream>
 
 void BrowserEngine::loadURL(const std::string& url) {
 	std::cout << "Loading URL: " << url << std::endl;
-	fetchResource(url);
-	parseHTML("<html></html>"); // placeholder
-	parseCSS("body { }"); // placeholder
-	executeJavaScript("console.log('Hello, world!');"); // placeholder
+
+	// networking
+	std::string responseContent;
+	responseContent = fetchResource(url);
+
+	// HTML parsing	
+	DOMNode HTMLRoot;
+	HTMLRoot = parseHTML(responseContent); 
+
+	// CSS parsing
+	std::map<std::string, std::string> styles;
+	styles = parseCSS("body { color: red; }");
+	executeJavaScript("document.getElementById('test').textContent = 'Changed';"); // placeholder
 	layoutPage();
 	renderPage();
 }
 
-void BrowserEngine::fetchResource(const std::string& url) {
+std::string BrowserEngine::fetchResource(const std::string& url) {
 	// TEST: fetch a local text file 
 	// IN: path to local text file
 	// OUT: content of text file
+	std::ifstream file(url);
+	if (!file.is_open()) {
+		std::cerr << "Failed to open file: " << url << std::endl;
+		return "";
+	}
+	return std::string((std::istreambuf_iterator<char>(file)),
+			std::istreambuf_iterator<char>());
 	
 	// TEST: fetch content over HTTP 
 	// IN: HTTP URL
@@ -29,15 +46,17 @@ void BrowserEngine::fetchResource(const std::string& url) {
 	// OUT: content of response
 }
 
-struct Node {
-	std::string tag;
-	std::vector<Node> children;
-};
-
-void BrowserEngine::parseHTML(const std::string& htmlContent) {
+DOMNode BrowserEngine::parseHTML(const std::string& htmlContent) {
 	// TEST: parse a minimal HTML document 
 	// IN: <div>Hello World</div>
 	// OUT: DOM structure with one div element containing Hello World
+	size_t endOfStartTag = htmlContent.find('>');
+	size_t startOfEndTag = htmlContent.find_last_of('<');
+
+	DOMNode node;
+	node.tag = htmlContent.substr(1, endOfStartTag - 1);
+	node.textContent = htmlContent.substr(endOfStartTag + 1, startOfEndTag - endOfStartTag - 1);
+	return node;	
 	
 	// TEST: parse nested HTML elements 
 	// IN: <div><span>Nested</span></div>
@@ -52,16 +71,19 @@ void BrowserEngine::parseHTML(const std::string& htmlContent) {
 	// OUT: DOM node for img element with src and alt attributes parsed
 }
 
-struct Style {
-	std::string selector;
-	std::string property;
-	std::string value;
-};
-
-void BrowserEngine::parseCSS(const std::string& cssContent) {
+std::map<std::string, std::string> BrowserEngine::parseCSS(const std::string& cssContent) {
 	// TEST: parse a simple CSS rule 
 	// IN: body { color: red; }
 	// OUT: style structure associating body element with color red
+	std::map<std::string, std::string> styles;
+	size_t start = cssContent.find('{') + 1;
+	size_t end = cssContent.find('}');
+	std::string body = cssContent.substr(start, end - start);
+	size_t colon = body.find(':');
+	std::string property = body.substr(0, colon);
+	std::string value = body.substr(colon + 1, body.find(';') - colon - 1);
+	styles[property] = value;
+	return styles;
 	
 	// TEST: parse multiple CSS rules
 	// IN: body { color: red; } h1 { font-size: 14px; }
@@ -77,6 +99,7 @@ void BrowserEngine::parseCSS(const std::string& cssContent) {
 }
 
 void BrowserEngine::executeJavaScript(const std::string& jsContent) {
+	std::cout << "Executing JavaScript: " << jsContent << std::endl;
 	// TEST: execute JS that changes text content 
 	// IN: document.getElementById('test').textContent = 'Changed';
 	// IN: HTML structure containing <div id='test'>Original</div>
@@ -95,7 +118,27 @@ void BrowserEngine::executeJavaScript(const std::string& jsContent) {
 	// OUT: button text changes when the event is simulated
 }
 
+void BrowserEngine::layoutPage() {
+	std::cout << "Laying out page..." << std::endl;
+	// TEST: calculate layout for non-nested elements
+	// IN: simple HTML page with several block elements
+	// OUT: a layout structure indicating a single column of elements
+	
+	// TEST: calculate layout with margin, border, padding
+	// IN: HTML and CSS that specify margin, border, and padding for elements
+	// OUT: layout structure reflects the box model dimensions
+	
+	// TEST: differentiate between inline and block elements in layout
+	// IN: HTML with a mix of inline and block elements
+	// OUT: layout structure that places inline elements differently from block elements
+	
+	// TEST: calculate layout for nested elements and elements with float
+	// IN: HTML and CSS defining nested structures and float properties
+	// OUT: layout structure reflecting nesting and float positioning
+}
+
 void BrowserEngine::renderPage() {
+	std::cout << "Rendering page..." << std::endl;
 	// TEST: render a page with simple text content
 	// IN: a layout structure with basic text content
 	// OUT: visual representation (e.g. console output, GUI window) showing text content
@@ -113,20 +156,3 @@ void BrowserEngine::renderPage() {
 	// OUT: colors are correctly rendered in the visual output
 }
 
-void BrowserEngine::layoutPage() {
-	// TEST: calculate layout for non-nested elements
-	// IN: simple HTML page with several block elements
-	// OUT: a layout structure indicating a single column of elements
-	
-	// TEST: calculate layout with margin, border, padding
-	// IN: HTML and CSS that specify margin, border, and padding for elements
-	// OUT: layout structure reflects the box model dimensions
-	
-	// TEST: differentiate between inline and block elements in layout
-	// IN: HTML with a mix of inline and block elements
-	// OUT: layout structure that places inline elements differently from block elements
-	
-	// TEST: calculate layout for nested elements and elements with float
-	// IN: HTML and CSS defining nested structures and float properties
-	// OUT: layout structure reflecting nesting and float positioning
-}
