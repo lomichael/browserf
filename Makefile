@@ -2,7 +2,7 @@ CC := g++
 CFLAGS := -std=c++11 -Wall -Wextra
 SRC_DIR := src
 OBJ_DIR := obj
-TARGET := browser_engine
+TARGET := browserf
 
 SRCS := $(wildcard $(SRC_DIR)/*.cpp)
 OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))

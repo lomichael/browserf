@@ -1,7 +1,19 @@
-# Web Browser
+# browserf 
+[![MIT License](https://img.shields.io/badge/license-MIT-blue)](/LICENSE)
 [![justforfunnoreally.dev badge](https://img.shields.io/badge/justforfunnoreally-dev-9ff)](https://justforfunnoreally.dev)
 
-A small web browser written in C++, done in my free time as a learning project.
+A browser written in C++.
+
+> **DISCLAIMER**: This is a work-in-progress hobby project. Use at your own risk.
+
+## Prerequisites
+- C++11
+
+## Usage
+```sh
+make
+./browserf
+```
 
 ## Test Progress
 - Networking
@@ -38,3 +50,6 @@ A small web browser written in C++, done in my free time as a learning project.
 ## Resources
 - [Web Browser Engineering](browser.engineering)
 - [Let's build a browser engine!](https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html)
+
+## License
+browserf is licensed under the MIT License. See `LICENSE` in the project for details.
