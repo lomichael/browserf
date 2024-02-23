@@ -46,12 +46,9 @@ std::map<std::string, std::string> BrowserEngine::parseCSS(const std::string& cs
 	size_t start = cssContent.find('{') + 1;
 	size_t end = cssContent.find('}');
 	std::string body = cssContent.substr(start, end - start);
-	std::cout << "CSS body: " << body << std::endl;
 	size_t colon = body.find(':');
 	std::string property = body.substr(0, colon);
-	std::cout << "CSS property: " << property << std::endl;
 	std::string value = body.substr(colon + 1, body.find(';') - colon - 1);
-	std::cout << "CSS value: " << value << std::endl;
 	styles[property] = value;
 	return styles;
 }

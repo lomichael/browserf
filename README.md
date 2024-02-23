@@ -2,20 +2,41 @@
 [![MIT License](https://img.shields.io/badge/license-MIT-blue)](/LICENSE)
 [![justforfunnoreally.dev badge](https://img.shields.io/badge/justforfunnoreally-dev-9ff)](https://justforfunnoreally.dev)
 
-A browser written in C++.
+A web browser written in C++.
 
-> **DISCLAIMER**: This is a work-in-progress hobby project. Use at your own risk.
+> **DISCLAIMER**: This is a hobby project and a work-in-progress.
 
-## Prerequisites
-- C++11
+## Build
+browserf has been tested on Debian Linux.
 
-## Usage
+Prerequisites:
+- git
+- gcc 
+- GNU make
+
+To clone the repository and build the browser:
 ```sh
+git clone https://codeberg.com/lomichael/browserf
+cd browserf
 make
-./browserf
 ```
 
-## Test Progress
+## Usage
+**Fetch and display from a given URL**:
+```sh
+./browserf <path/to/file>
+```
+
+## Tests
+**Build tests**:
+```sh
+make test
+```
+
+**Run tests**:
+```sh
+./test/<TestFunction>
+```
 - Networking
     - [X] Fetch a local text file.
     - [ ] Fetch content over HTTP.
