@@ -16,7 +16,7 @@ Prerequisites:
 
 To clone the repository and build the browser:
 ```sh
-git clone https://codeberg.com/lomichael/browserf
+git clone https://codeberg.org/lomichael/browserf
 cd browserf
 make
 ```
